@@ -1,0 +1,35 @@
+label {
+    display: block;
+}
+
+.error {
+    color: red;
+}
+
+.container{
+    width: 600px;
+    margin: auto;
+    text-align: center;
+    background-color: #F1F4F8;
+    border: 3px solid black;
+}
+
+h2{
+    background: linear-gradient(#3C4C5B, rgb(18, 32, 51) );
+    color: white;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-top: 0px;
+}
+
+input {
+    display: block;
+    margin: auto;
+    margin-bottom: 10px;
+}
+
+button {
+    padding: 10px 10px 10px 10px;
+    margin-bottom: 10px;
+    width: 100px;
+}

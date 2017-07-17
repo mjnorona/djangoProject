@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    {% load staticfiles %}
+    <link rel="stylesheet" href="{% static 'project/css/styles.css' %}" media="screen" title="no title"  charset="utf-8">
+</head>
+<body>
+    <div class = "container">
+        {% for message in messages %}
+            <p>{{ message }}</p>
+        {% endfor %}
+        <form action="/register" method = "post">
+            {% csrf_token %}
+            <h2>Register</h2>
+            <label for = "first">First Name:</label><input type = "text" id = "first" name = "first">
+            <label for = "last">Last Name:</label><input type = "text" id = "last" name = "last">
+            <label for = "username">Username:</label><input type = "text" id = "alias" name = "alias">
+            <label for = "email">Email:</label><input type = "text" id = "email" name = "email">
+            <label for = "password">Password:</label><input type = "password" id = "password" name = "password">
+            <label for = "confirm">Confirm:</label><input type = "password" id = "confirm" name = "confirm">
+            <input type = "hidden" name = "action" value = "register">
+            <button type = "submit">Submit</button>
+        </form>
+
+        <form action="/login" method = "post">
+            {% csrf_token %}
+            <h2>Log In</h2>
+            <label for = "logemail">Email:</label><input type = "text" id = "logemail" name = "email">
+            <label for = "logpassword">Password:</label><input type = "password" id = "logpassword" name = "password">
+            <input type = "hidden" name = "action" value = "login">
+            <button type = "submit">Submit</button>
+        </form>
+    </div>
+</body>
+</html>
