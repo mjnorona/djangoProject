@@ -13,9 +13,7 @@ class UserManager(models.Manager):
         print post
         first_name = post["first"]
         last_name = post["last"]
-        print last_name
         username = post["alias"]
-        print username
         email = post["email"].lower()
         password = post["password"]
         confirm = post["confirm"]
@@ -66,7 +64,7 @@ class UserManager(models.Manager):
         logged = [False]
         passedValues = []
         if User.objects.filter(email=email).exists():
-            
+
             user = User.objects.get(email = email)
             # print "input password = " + bcrypt.hashpw(password.encode(), user.password.encode())
             # print "saved password = " + bcrypt.hashpw(user.password.encode(), user.password.encode())
@@ -135,4 +133,3 @@ class Like(models.Model):
 class Following(models.Model):
     user = models.ForeignKey(User, related_name = "following")
     following_user = models.ForeignKey(User, related_name = "follower")
-
