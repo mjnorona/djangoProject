@@ -10,9 +10,12 @@ EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
 
 class UserManager(models.Manager):
     def register(self, post):
+        print post
         first_name = post["first"]
         last_name = post["last"]
-        username = post['username']
+        print last_name
+        username = post["alias"]
+        print username
         email = post["email"].lower()
         password = post["password"]
         confirm = post["confirm"]
@@ -73,6 +76,16 @@ class UserManager(models.Manager):
                 logged = [True, user.first_name, user.id]
         return logged
 
+    def edit(self, post, userID):
+        email = post['email']
+        first = post['first']
+        last = post['last']
+        current = post['current']
+        password = post['password']
+        confirm = post['confirm']
+        valid = []
+
+        user = User.objects.get(id = userID)
 
 class User(models.Model):
     username = models.CharField(max_length = 30)
@@ -84,4 +97,42 @@ class User(models.Model):
     updated_at = models.DateTimeField(auto_now_add=True)
     objects = UserManager()
 
+class SolutionManager(models.Manager):
+    def createSolution(self, post, userID, promptID):
+        one = post['one']
+        two = post['two']
+        three = post['three']
+
+        user = User.objects.get(id = userID)
+        prompt = Prompt.objects.get(id = promptID)
+
+        Solution.objects.create(content = one, user = user, prompt = prompt)
+        Solution.objects.create(content = two, user = user, prompt = prompt)
+        Solution.objects.create(content = three, user = user, prompt = prompt)
+
+class Prompt(models.Model):
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add = True)
+    updated_at = models.DateTimeField(auto_now_add=True)
+
+class Solution(models.Model):
+    content = models.TextField()
+    user = models.ForeignKey(User, related_name = "solutions")
+    prompt = models.ForeignKey(Prompt, related_name = "solutions")
+    created_at = models.DateTimeField(auto_now_add = True)
+    updated_at = models.DateTimeField(auto_now_add=True)
+    objects = SolutionManager()
+
+class Collaboration(models.Model):
+    name = models.CharField(max_length = 30)
+    users = models.ManyToManyField(User, related_name = "collaborations")
+    solution = models.ForeignKey(Solution, related_name = "collaborations")
+
+class Like(models.Model):
+    user = models.ForeignKey(User, related_name = "likes")
+    solution = models.ForeignKey(Solution, related_name = "likes")
+
+class Following(models.Model):
+    user = models.ForeignKey(User, related_name = "following")
+    following_user = models.ForeignKey(User, related_name = "follower")
 
