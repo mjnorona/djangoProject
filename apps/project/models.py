@@ -12,7 +12,7 @@ class UserManager(models.Manager):
     def register(self, post):
         first_name = post["first"]
         last_name = post["last"]
-        username = post['username']
+        username = post["alias"]
         email = post["email"].lower()
         password = post["password"]
         confirm = post["confirm"]
@@ -63,7 +63,7 @@ class UserManager(models.Manager):
         logged = [False]
         passedValues = []
         if User.objects.filter(email=email).exists():
-            
+
             user = User.objects.get(email = email)
             # print "input password = " + bcrypt.hashpw(password.encode(), user.password.encode())
             # print "saved password = " + bcrypt.hashpw(user.password.encode(), user.password.encode())
@@ -83,5 +83,3 @@ class User(models.Model):
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now_add=True)
     objects = UserManager()
-
-
