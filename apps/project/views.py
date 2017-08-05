@@ -2,44 +2,35 @@ import bcrypt
 from django.contrib import messages
 from django.shortcuts import render, redirect
 from .models import User, Prompt, Solution, Collaboration, Like, Following
+from django.db.models import Count
+
 
 # Create your views here.
 def index(request):
-
-    list = User.objects.all()
+    #Prompt.objects.all().delete()
+    #list = User.objects.all().delete()
     # for i in list:
     #     print i.email
     return render(request, 'project/index.html')
+
+def index(request):
+
+   return render(request,'project/index.html')
 
 
 def register(request):
 
     if request.method == "POST":
         values = User.objects.register(request.POST)
-        # username = User.objects.register(request.POST.get("username"))
         if values[0]:
             request.session['id'] = values[1]
-            return redirect("/success")
+            return redirect("/home")
         else:
             for error in values[1]:
                 messages.error(request, error)
             return redirect("/")
 
-def home(request):
-    if 'id' in request.session:
-        text = "How do you improve an umbrella?"
 
-        prompt = Prompt.objects.filter(content = text)
-
-        user = User.objects.get(id = request.session['id'])
-        content = {
-            'first_name': user.first_name,
-            'user': user,
-            'prompt': prompt
-        }
-        return render(request, 'hackathon/home.html', content)
-    else:
-        return redirect('/')
 
 def login(request):
     if request.method == "POST":
@@ -48,30 +39,27 @@ def login(request):
         if login[0]:
 
             request.session['id'] = login[2]
-            return redirect('/success')
+            return redirect('/home')
         else:
             messages.error(request, 'Email or password is incorrect')
             return redirect('/')
 
-def success(request):
+def home(request):
     if 'id' in request.session:
+
         text = "How do you improve an umbrella?"
-
+        # Prompt.objects.create(content = text)
         prompt = Prompt.objects.filter(content = text)
-
+        print(prompt[0].content)
         user = User.objects.get(id = request.session['id'])
         content = {
             'first_name': user.first_name,
             'user': user,
-            'prompt': prompt
+            'prompt': prompt[0]
         }
         return render(request, 'project/home.html', content)
     else:
         return redirect('/')
-
-def logout(request):
-    request.session.clear()
-    return redirect('/')
 
 def edit(request):
     if 'id' in request.session:
@@ -102,9 +90,22 @@ def solutions(request, id):
             'solutions': solutions,
             'user': user
         }
-        return render(request, 'hackathon/solutions.html', content)
+        return render(request, 'project/solutions.html', content)
     else:
         return render('/home')
+
+def like(request, id):
+    print "solution " + id
+    user = User.objects.get(id = request.session['id'])
+    solution = Solution.objects.get(id = id)
+
+    like = Like.objects.create(user = user, solution = solution)
+    print 'prompt ' + str(solution.prompt.id)
+    return redirect('solutions', id = solution.prompt.id)
+
+def logout(request):
+    request.session.clear()
+    return redirect('/')
 
 def profile(request, id):
     if 'id' in request.session:
@@ -121,13 +122,4 @@ def profile(request, id):
         for i in Solution.objects.all():
             print i.content
 
-    return render(request, 'hackathon/profile.html', context)
-
-def like(request, id):
-    print "solution " + id
-    user = User.objects.get(id = request.session['id'])
-    solution = Solution.objects.get(id = id)
-
-    like = Like.objects.create(user = user, solution = solution)
-    print 'prompt ' + str(solution.prompt.id)
-    return redirect('solutions', id = solution.prompt.id)
+    return render(request, 'project/profile.html', context)
