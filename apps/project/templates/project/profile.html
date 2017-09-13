@@ -54,7 +54,6 @@
         </div>
         <ul class="tabs">
             <li class="getsol active">Solutions</li>
-            <li class="getcol">Collaborations</li>
         </ul>
 
         <div class="containerinfo">
@@ -72,7 +71,7 @@
             {% endfor %}
         </div>
         <div>
-        <div class="collab tab-content">
+        <!-- <div class="collab tab-content">
             <h1>Collaborations</h1>
             <ul>
                 {% for i in collabs %}
@@ -80,7 +79,7 @@
                 {% endfor %}
             </ul>
 
-        </div>
+        </div> -->
         </div>
         </div>
     </div>
@@ -90,21 +89,21 @@
     //         $(".tab_content").hide();
     // $(".tab_content:first").show();
 
-            $('.getsol').click(function(){
-                // $('.solutions').animate({height: "toggle", opacity: "toggle"}, "slow");
-                $('.solutions').show()
-                $('.getsol').addClass('active')
-                $('.getcol').removeClass('active')
-                $('.collab').hide()
-        });
+        //     $('.getsol').click(function(){
+        //         // $('.solutions').animate({height: "toggle", opacity: "toggle"}, "slow");
+        //         $('.solutions').show()
+        //         $('.getsol').addClass('active')
+        //         $('.getcol').removeClass('active')
+        //         $('.collab').hide()
+        // });
 
-        $('.getcol').click(function(){
-                // $('.collab').animate({height: "toggle", opacity: "toggle"}, "slow");
-                $('.collab').show()
-                $('.solutions').hide()
-                $('.getsol').removeClass('active')
-                $('.getcol').addClass('active')
-        });
+        // $('.getcol').click(function(){
+        //         // $('.collab').animate({height: "toggle", opacity: "toggle"}, "slow");
+        //         $('.collab').show()
+        //         $('.solutions').hide()
+        //         $('.getsol').removeClass('active')
+        //         $('.getcol').addClass('active')
+        // });
 
         </script>
 
