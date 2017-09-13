@@ -4,14 +4,24 @@
     <meta charset="UTF-8">
     <title>Title</title>
     {% load staticfiles %}
-    <link rel="stylesheet" href="{% static 'project/css/styles.css' %}" media="screen" title="no title"  charset="utf-8">
+
+    <link rel="stylesheet" href="{% static 'project/css/loginregister.css' %}" media="screen" title="no title"  charset="utf-8">
+
 </head>
 <body>
     <div class = "container">
-        {% for message in messages %}
+
+        <!-- {% for message in messages %}
+            <p>{{ message }}</p>
+        {% endfor %} -->
+        <div class="form">
+                <h1>CreativeSpace</h1>
+            {% if messages %}
+            {% for message in messages %}
             <p>{{ message }}</p>
         {% endfor %}
-        <form action="/register" method = "post">
+        {% endif %}
+        <form class="register-form" action="/register" method = "post">
             {% csrf_token %}
             <h2>Register</h2>
             <label for = "first">First Name:</label><input type = "text" id = "first" name = "first">
@@ -22,16 +32,29 @@
             <label for = "confirm">Confirm:</label><input type = "password" id = "confirm" name = "confirm">
             <input type = "hidden" name = "action" value = "register">
             <button type = "submit">Submit</button>
+            <p class="message">Already registered? <a href="#">Sign In</a></p>
+            <p class="message">Administrator <a href="{% url 'admin:index' %}">Admin Login</a></p>
+
         </form>
 
-        <form action="/login" method = "post">
+        <form class="login-form" action="/login" method = "post">
             {% csrf_token %}
             <h2>Log In</h2>
             <label for = "logemail">Email:</label><input type = "text" id = "logemail" name = "email">
             <label for = "logpassword">Password:</label><input type = "password" id = "logpassword" name = "password">
             <input type = "hidden" name = "action" value = "login">
             <button type = "submit">Submit</button>
+            <p class="message">Not registered? <a href="#">Create an account</a></p>
+            <p class="message">Administrator <a href="{% url 'admin:index' %}">Admin Login</a></p>
         </form>
     </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+            $('.message a').click(function(){
+           $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
+        });
+        </script>
+
 </body>
 </html>

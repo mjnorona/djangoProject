@@ -1,0 +1,16 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto:300);
+body{
+    font-family: "Roboto", sans-serif;
+}
+textarea{
+    margin-bottom: 40px;
+}
+
+li.bebold{
+    /* padding: .7rem 1rem; */
+    font-weight: 10px;
+} 
+
+.button.large{
+    background-color: #2196F3;
+}

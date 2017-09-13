@@ -2,81 +2,77 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-    {% load staticfiles %}
+    <title>Profile of {{user.username}}</title>
+        {% load static from staticfiles %}
+        <link rel="stylesheet" href="{% static 'project/foundation/css/foundation.min.css' %}" media="screen" title="no title"  charset="utf-8">
+
+        <link rel="stylesheet" href="{% static 'project/bootstrap/css/bootstrap-theme.min.css' %}" media="screen" title="no title"  charset="utf-8">
+        <link rel="stylesheet" href="{% static 'project/bootstrap/css/bootstrap.min.css' %}" media="screen" title="no title"  charset="utf-8">
+        <script src="{% static 'project/bootstrap/js/bootstrap.min.js' %}" ></script>
+
     <link rel="stylesheet" href="{% static 'project/css/profilestyles.css' %}" media="screen" title="no title"  charset="utf-8">
-    <link rel="stylesheet" href= "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'project/css/getprofile.css' %}" media="screen" title="no title"  charset="utf-8">
+
     <style>
-        *{
-            margin: 0;
-            padding: 0;
-            font-family: Helvetica, Arial, sans-serif;
-        }
-.container{
-    width: 970px;
-    margin: auto;
-}
-.header{
-}
-img{
-    display: inline-block;
-    padding: 10px 10px 20px;
-}
-.info{
-    display: inline-block;
-    vertical-align: top;
-    margin-top: 30px;
-}
-.solutions, .collab{
-    margin: auto;
-    text-align: center;
-    border: 1px solid grey;
-    margin-bottom: 10px;
-}
-.eachsol{
-    margin: 10px;
-    border: 1px solid grey;
-    border-radius: 5px;
-    padding: 5px;
-}
-.logout{
-    vertical-align: top;
-    margin-left: 700px;
-    position: relative;
-    top: 20px;
-}
-a{
-    text-decoration: none;
-    font-size: 1em;
-}
+       .collab{
+           display: none;
+       }
     </style>
 </head>
 <body>
+
+    <div class="top-bar">
+      <div class="top-bar-left">
+        <ul class="menu">
+          <li style="font-weight:bold; font-size:20px">CreativeSpace</li>
+          <li><a href="{% url 'admin:index' %}">Admin</a></li>            
+          <li><a href="/home">Feed</a></li>
+          <li><a style="font-weight:bold" href="/profile/{{user.id}}">Profile</a></li>
+          <li><a href="/edit">Edit Info</a></li>
+          <li><a href="/uploadprofile">Upload Picture</a></li>
+          <li><button><a href="/logout">Logout</a></button></li>
+        </ul>
+      </div>
+    </div>
+
         <div>
-            <h2>Top 3 High-Rated Solutions</h2>
     <div class = "container">
         <div class="header">
-            <img src="http://cdn2.hercampus.com/jane%20doe.jpg" width="70" height="77" alt="profile picture of user">
-            <div class="info">
-                <p>User: {{user.username}}</p>
-                <p>Points: {{user.points}}</p>
-            </div>
-            <a class="logout" href="/logout">Logout</a>
-        </div>
-        <div class="solutions">
-            <h1>Top 3 High-Rated Solutions</h1>
+            {% if user.document %}
+                <p><a href="{{ uploaded_file_url }}">{{ uploaded_file_url }}</a></p>
+                <img class="profilepic" src="{{user.document}}" width="150" height="77" alt="profile picture of user">
 
-            {% for i in solutions%}
+                {% else %}
+                <a href="/uploadprofile">Upload profile picture!</a>
+              {% endif %}
+
+            <div class="info">
+                    <h3>{{user.first_name}} {{user.last_name}}</h3>
+                <h3>User: {{user.username}}</h3>
+                <h3>Points: {{user.point}}</h3>
+            </div>
+        </div>
+        <ul class="tabs">
+            <li class="getsol active">Solutions</li>
+            <li class="getcol">Collaborations</li>
+        </ul>
+
+        <div class="containerinfo">
+        <div class="solutions tab-content" >
+            <h1 class="text-center">Top 3 High-Rated Solutions</h1>
+
+            {% for i in solutions %}
                 <div class="eachsol">
                     <p>{{i.prompt.content}}</p>
                     <p>{{i.content}}</p>
                     <p>{{i.likes.count}}</p>
-                    <a href="/like/{{i.id}}">Like</a>
+                    <a href="/likeonprofile/{{i.id}}">Like</a>
+                    <a href="/collaborate/{{i.id}}">Collaborate!</a>
                 </div>
             {% endfor %}
         </div>
         <div>
-        <div class="collab">
+        <div class="collab tab-content">
             <h1>Collaborations</h1>
             <ul>
                 {% for i in collabs %}
@@ -85,9 +81,32 @@ a{
             </ul>
 
         </div>
-
+        </div>
         </div>
     </div>
-    <div id="fb-root"></div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+    //         $(".tab_content").hide();
+    // $(".tab_content:first").show();
+
+            $('.getsol').click(function(){
+                // $('.solutions').animate({height: "toggle", opacity: "toggle"}, "slow");
+                $('.solutions').show()
+                $('.getsol').addClass('active')
+                $('.getcol').removeClass('active')
+                $('.collab').hide()
+        });
+
+        $('.getcol').click(function(){
+                // $('.collab').animate({height: "toggle", opacity: "toggle"}, "slow");
+                $('.collab').show()
+                $('.solutions').hide()
+                $('.getsol').removeClass('active')
+                $('.getcol').addClass('active')
+        });
+
+        </script>
+
 </body>
 </html>

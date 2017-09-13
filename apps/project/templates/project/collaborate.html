@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile of {{user.username}}</title>
+        {% load static from staticfiles %}
+        <link rel="stylesheet" href="{% static 'project/foundation/css/foundation.min.css' %}" media="screen" title="no title"  charset="utf-8">
+
+        <link rel="stylesheet" href="{% static 'project/bootstrap/css/bootstrap-theme.min.css' %}" media="screen" title="no title"  charset="utf-8">
+        <link rel="stylesheet" href="{% static 'project/bootstrap/css/bootstrap.min.css' %}" media="screen" title="no title"  charset="utf-8">
+        <script src="{% static 'project/bootstrap/js/bootstrap.min.js' %}" ></script>
+
+    <link rel="stylesheet" href="{% static 'project/css/profilestyles.css' %}" media="screen" title="no title"  charset="utf-8">
+    <style>
+
+    </style>
+</head>
+<body>
+    <div class="top-bar">
+      <div class="top-bar-left">
+        <ul class="menu">
+          <li><a href="{% url 'admin:index' %}">Admin</a></li>
+          <li><a href="/home">Feed</a></li>
+          <li><a style="font-weight:bold" href="/profile/{{user.id}}">Profile</a></li>
+          <li><a href="/edit">Edit Info</a></li>
+          <li><a href="/uploadprofile">Upload Picture</a></li>
+          <li><button><a href="/logout">Logout</a></button></li>
+        </ul>
+      </div>
+    </div>
+
+        <div>
+          <h1 class="text-center">Collaborations to "{{collaboration.solution.content}}"</h1>
+          {% for collaboration in collaborations %}
+            <div class = "solution panel panel-default">
+            <a href="/profile/{{collaboration.user.id}}"> Collaborator {{collaboration.user.username}}</a>
+            <h3>{{solution.content}}</h3>
+            <h1>{{collaboration.write}} for {{collaboration.solution.prompt.content}}</h1>
+            {{collaboration.user}}
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>

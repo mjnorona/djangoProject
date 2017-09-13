@@ -1,0 +1,13 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto:300);
+body{
+    font-family: "Roboto", sans-serif;
+}
+.centerinfo{
+        width: 970px;
+    margin: auto;
+
+}
+
+.solution{
+    padding: 10px;
+}

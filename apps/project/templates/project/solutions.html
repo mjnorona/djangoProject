@@ -4,27 +4,58 @@
         <title></title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link href="css/style.css" rel="stylesheet">
+
+        {% load static from staticfiles %}
+        <link rel="stylesheet" href="{% static 'project/foundation/css/foundation.min.css' %}" media="screen" title="no title"  charset="utf-8">
+
+        <link rel="stylesheet" href="{% static 'project/bootstrap/css/bootstrap-theme.min.css' %}" media="screen" title="no title"  charset="utf-8">
+        <link rel="stylesheet" href="{% static 'project/bootstrap/css/bootstrap.min.css' %}" media="screen" title="no title"  charset="utf-8">
+        <script src="{% static 'project/bootstrap/js/bootstrap.min.js' %}" ></script>
+        <link rel="stylesheet" href="{% static 'project/css/solution.css' %}" media="screen" title="no title"  charset="utf-8">
+
     </head>
     <body>
-        <div class = "header">
-                <h4>{{user.username}}</h4>
-                <a href="/home">Home</a>
-                <a href="#">Feed</a>
-                <a href="#">Profile</a>
-                <a href="#">Edit Info</a>
-                <button><a href = "/logout">Logout</a></button>
+        {% if user.email == "admin@creativespaces.com" %}
+        <div class="top-bar">
+                <div class="top-bar-left">
+                  <ul class="menu">
+                    <li class="bebold" style="font-weight:bold"><a href="/admin">Home</a></li>
+                    <li><button><a href="/logout">Logout</a></button></li>
+                  </ul>
+                </div>
+              </div>
+    <div class = "container">
+        {% else %}
+        <div class="top-bar">
+            <div class="top-bar-left">
+                <ul class="menu">
+                <li style="font-weight:bold; font-size:20px">CreativeSpace</li>
+                <li><a href="{% url 'admin:index' %}">Admin</a></li>
+                <li><a href="/home">Feed</a></li>
+                <li><a href="/profile/{{user.id}}">Profile</a></li>
+                <li><a href="/edit">Edit Info</a></li>
+                <li><a href="/uploadprofile">Upload Picture</a></li>
+                <li><button><a href="/logout">Logout</a></button></li>
+                </ul>
             </div>
-        <h1>Solutions to "{{prompt.content}}"</h1>
-        {% for solution in solutions %}
-            <div class = "solution">
-                <a href="">{{solution.user.username}}</a>
-                <h3>{{solution.content}}</h3>
-                <a href="#">{{solution.num_likes}}</a>
-                <button><a href="/like/{{solution.id}}">Like</a></button>
-            </div>
-        {% endfor %}
+        </div>
+        {% endif %}
+        <div class="centerinfo">
+            <div class = "header">
+                    <h4>Hey {{user.username}}!</h4>
+                </div>
+            <h1 class="text-center">Solutions to "{{prompt.content}}"</h1>
+            {% for solution in solutions %}
+                <div class = "solution panel panel-default">
+                    <a href="/profile/{{solution.user.id}}">Answered by {{solution.user.username}}</a>
+                    <h3>{{solution.content}}</h3>
+                    <a >{{solution.num_likes}}</a>
+                    <button><a href="/like/{{solution.id}}">Like</a></button>
+                    <a href="/collaborate/{{solution.id}}">Collaborate!</a>
 
+                </div>
+            {% endfor %}
+        </div>
 
     </body>
 </html>

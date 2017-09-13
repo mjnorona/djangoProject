@@ -1,0 +1,15 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto:300);
+body{
+    font-family: "Roboto", sans-serif;
+}
+.form{
+    border: 1px solid lightgray;
+    padding: 10px;
+    
+}
+
+button.upload {
+    background: #3b9ae4;
+    padding: 10px;
+}
+

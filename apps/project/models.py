@@ -2,7 +2,6 @@
 from __future__ import unicode_literals
 from django.db import models
 import re, bcrypt
-
 NAME_REGEX = re.compile(r'[a-zA-Z]')
 EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
 
@@ -71,29 +70,62 @@ class UserManager(models.Manager):
             if not user.password == bcrypt.hashpw(password.encode(), user.password.encode()):
                 logged = [False]
             else:
-                logged = [True, user.first_name, user.id]
+                logged = [True, user.first_name, user.id, user]
         return logged
 
+    def saveprofilepicture(self, picture_url, userID):
+        document = picture_url
+        user = User.objects.get(id = userID)
+        print user.document
+        user.document = picture_url
+        print user.document
+
+        user.save()
+        # User.objects.save(id = userID, document = picture_url)
+        print "hoiiii"
+
     def edit(self, post, userID):
-        email = post['email']
-        first = post['first']
-        last = post['last']
+        user = User.objects.get(id = userID)
+        user.email = post['email']
+        user.first_name = post['first']
+        user.last_name = post['last']
         current = post['current']
         password = post['password']
         confirm = post['confirm']
-        valid = []
+        errors = []
+        print "dsdsdsjjkgkhfk"
+        print user.password
+        if password == confirm and user.password == bcrypt.hashpw(current.encode(), user.password.encode()):
+            hashed = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
+            user.password = hashed
+            user.save()
+            valid=[True]
+        elif bcrypt.hashpw(current.encode(), user.password.encode()) != user.password:
+            valid=[False, "Current password is incorrect"]
+        elif password != confirm:
+            valid = [False, "Unmatching passwords"]
 
-        user = User.objects.get(id = userID)
+        return valid
 
 class User(models.Model):
     username = models.CharField(max_length = 30)
     first_name = models.CharField(max_length = 30)
     last_name = models.CharField(max_length=30)
     email = models.CharField(max_length=30)
+    point = models.IntegerField(default=0)
+    document = models.FileField(upload_to='documents/')
     password = models.CharField(max_length=30)
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now_add=True)
     objects = UserManager()
+
+class ProfileImage(models.Model):
+    image = models.FileField(upload_to='profile/%Y/%m/%d')
+
+class Document(models.Model):
+    description = models.CharField(max_length=255, blank=True)
+    document = models.FileField(upload_to='documents/')
+    uploaded_at = models.DateTimeField(auto_now_add=True)
 
 class SolutionManager(models.Manager):
     def createSolution(self, post, userID, promptID):
@@ -113,6 +145,7 @@ class Prompt(models.Model):
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now_add=True)
 
+
 class Solution(models.Model):
     content = models.TextField()
     user = models.ForeignKey(User, related_name = "solutions")
@@ -122,7 +155,7 @@ class Solution(models.Model):
     objects = SolutionManager()
 
 class Collaboration(models.Model):
-    name = models.CharField(max_length = 30)
+    write = models.TextField()
     users = models.ManyToManyField(User, related_name = "collaborations")
     solution = models.ForeignKey(Solution, related_name = "collaborations")
 

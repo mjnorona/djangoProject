@@ -4,28 +4,57 @@
         <title></title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link href="css/style.css" rel="stylesheet">
+        {% load static from staticfiles %}
+        <link rel="stylesheet" href="{% static 'project/foundation/css/foundation.min.css' %}" media="screen" title="no title"  charset="utf-8">
+
+        <link rel="stylesheet" href="{% static 'project/bootstrap/css/bootstrap-theme.min.css' %}" media="screen" title="no title"  charset="utf-8">
+        <link rel="stylesheet" href="{% static 'project/bootstrap/css/bootstrap.min.css' %}" media="screen" title="no title"  charset="utf-8">
+        <script src="{% static 'project/bootstrap/js/bootstrap.min.js' %}" ></script>
+        <link rel="stylesheet" href="{% static 'project/css/edit.css' %}" media="screen" title="no title"  charset="utf-8">
+
     </head>
-    
+
     <body>
+        <div class="top-bar">
+      <div class="top-bar-left">
+        <ul class="menu">
+           <li style="font-weight:bold; font-size:20px">CreativeSpace</li>
+           <li><a href="{% url 'admin:index' %}">Admin</a></li>
+
+          <li><a href="/home">Feed</a></li>
+          <li><a href="/profile/{{user.id}}">Profile</a></li>
+          <li><a style="font-weight:bold" href="/edit">Edit Info</a></li>
+          <li><a href="/uploadprofile">Upload Picture</a></li>
+          <li><button><a href="/logout">Logout</a></button></li>
+        </ul>
+      </div>
+    </div>
+    <div class="row">
         <h2>Edit Info</h2>
+
+            <div class="col-xs-6 col-md-4">
+                {% for message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
         <form action = "/edit_submit" method = "post">
             {% csrf_token %}
-            <label for='email'>Email:</label>
-            <input type="text" name="email">
-            <label for='first'>First Name:</label>
-            <input type="text" name="first">
-            <label for='last'>Last Name:</label>
-            <input type="text" name="last">
-            <label for='current'>Current Password:</label>
+            <label for='email'><h4>Email:</h4></label>
+            <input type="text" name="email" value="{{user.email}}">
+            <label for='first'><h4>First Name:</h4></label>
+            <input type="text" name="first" value="{{user.first_name}}">
+            <label for='last'><h4>Last Name:</h4></label>
+            <input type="text" name="last" value="{{user.last_name}}">
+            <label for='current'><h4>Current Password:</h4></label>
             <input type="password" name="current">
-            <label for='password'>New Password:</label>
+            <label for='password'><h4>New Password:</h4></label>
             <input type="password" name="password">
-            <label for='confirm'>Re-Type Password:</label>
+            <label for='confirm'><h4>Re-Type Password:</h4></label>
             <input type="password" name="confirm">
-            <button type="submit">Submit</button>
+            <a class="button large"><button type="submit">Submit</button></a>
 
 
         </form>
+        </div>
+        </div>
     </body>
 </html>

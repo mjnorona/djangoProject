@@ -1,34 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+            <meta charset="UTF-8">
         <title></title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link href="css/style.css" rel="stylesheet">
+        {% load staticfiles %}
+        <link rel="stylesheet" href="{% static 'project/foundation/css/foundation.min.css' %}" media="screen" title="no title"  charset="utf-8">
+
+        <link rel="stylesheet" href="{% static 'project/bootstrap/css/bootstrap-theme.min.css' %}" media="screen" title="no title"  charset="utf-8">
+        <link rel="stylesheet" href="{% static 'project/bootstrap/css/bootstrap.min.css' %}" media="screen" title="no title"  charset="utf-8">
+        <script src="{% static 'project/bootstrap/js/bootstrap.min.js' %}" ></script>
+        <link rel="stylesheet" href="{% static 'project/css/homestyle.css' %}" media="screen" title="no title"  charset="utf-8">
     </head>
     <body>
+     <div class="top-bar">
+      <div class="top-bar-left">
+
+        <ul class="menu">
+          <li style="font-weight:bold; font-size:20px">CreativeSpace</li>
+          <li><a href="{% url 'admin:index' %}">Admin</a></li>
+
+          <li class="bebold" style="font-weight:bold"><a href="/home">Feed</a></li>
+          <li><a href="/profile/{{user.id}}">Profile</a></li>
+          <li><a href="/uploadprofile">Upload Picture</a></li>
+          <li><a href="/edit">Edit Info</a></li>
+          <li><button><a href="/logout">Logout</a></button></li>
+        </ul>
+      </div>
+    </div>
+
         <div class = "container">
             <div class = "header">
-                <h1>Welcome, {{first_name}}</h1>
-                <a href="#">Feed</a>
-                <a href="#">Profile</a>
-                <a href="/edit">Edit Info</a>
-                <a href="/profile/{{user.id}}">Profile</a>
-
-                <button><a href = "/logout">Logout</a></button>
+                <h3 class="text-left">Welcome, {{first_name}}</h3>
             </div>
-            <div class = "content">
-                <p class = "prompt">"{{prompt.content}}"</p>
-                <button type="#">Get new prompt</button>
-                <h2>Write 3 Solutions:</h2>
+            <div class="row">
+            <div class = "small-12 large-2 columns">
+                <h2 class = "prompt text-center">"{{prompt.content}}"</h2>
+                <p class="text-center"><a class=" button large" href="/home" >Get new prompt</a></p>
+                <h2 class="text-center">Write 3 Solutions:</h2>
                 <form action = "/submit/{{prompt.id}}" method = "post">
                     {% csrf_token %}
                     <textarea rows="5" cols="100" name = "one"></textarea>
+
                     <textarea rows="5" cols="100" name = "two"></textarea>
                     <textarea rows="5" cols="100" name = "three"></textarea>
-                    <button type="submit">Submit</button>
+                    <p class="text-right"><a class=" button large "> <button type="submit">Submit</button></a></p>
                 </form>
             </div>
+            </div>
         </div>
+        <!-- <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script src="http://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.js"></script>
+        <script>
+            $(document).foundation();
+        </script> -->
     </body>
 </html>
