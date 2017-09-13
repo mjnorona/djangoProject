@@ -19,7 +19,7 @@
                     <li style="font-weight:bold; font-size:20px">CreativeSpace</li>
                     <li><a href="{% url 'admin:index' %}">Admin</a></li>                     
                     <li><a href="/home">Feed</a></li>
-                    <li><a href="/profile/{{somenumber}}">Profile</a></li>
+                    <li><a href="/profile/{{getuser.id}}">Profile</a></li>
                     <li><a href="/edit">Edit Info</a></li>
                     <li><a style="font-weight:bold" href="/uploadprofile">Upload Picture</a></li>
                     <li><button><a href="/logout">Logout</a></button></li>
@@ -34,7 +34,6 @@
                                 <input type="file" name="myfile">
                                 <button class="upload" type="submit">Upload</button>
                               </form>
-
                               {% if uploaded_file_url %}
                                 <p>File uploaded at: <a href="{{ uploaded_file_url }}">{{ uploaded_file_url }}</a></p>
                               {% endif %}

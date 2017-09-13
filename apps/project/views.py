@@ -170,11 +170,11 @@ def collaborate(request, id):
         user = User.objects.get(id = request.session['id'])
         solution = Solution.objects.get(id = id)
         print solution.content
-        print Collaboration.objects.get(solution = solution)
-        somecollab = Collaboration.objects.get(solution = solution)
-        print somecollab.solution.content
+        # print Collaboration.objects.get(solution = solution)
+        # somecollab = Collaboration.objects.get(solution = solution)
+        # print somecollab.solution.content
         # collaborations = Collaboration.objects.filter(prompt = prompt)
-        if(Collaboration.objects.get(solution = solution)):
+        if(Collaboration.objects.filter(solution = solution).exists()):
             ##collaboration already existed
             collaboration = Collaboration.objects.get(solution = solution)
             collaboration.users.add(user)
@@ -282,13 +282,15 @@ def simple_upload(request):
         uploaded_file_url = fs.url(filename)
         values = User.objects.saveprofilepicture(uploaded_file_url, request.session['id'])
 
-        context = {
-            'uploaded_file_url': uploaded_file_url,
-            'getuser': user,
-            'somenumber': request.session['id']
-        }
         return redirect('/profile/'+str(request.session['id']))
-    return render(request, 'project/profile_image_form.html', context )
+    
+    somecontext = {
+            #"uploaded_file_url": uploaded_file_url,
+            "getuser": user,
+            "somenumber": str(request.session['id'])
+    }
+
+    return render(request, 'project/profile_image_form.html', somecontext )
 
 def model_form_upload(request):
     if request.method == 'POST':

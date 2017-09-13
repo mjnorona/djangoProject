@@ -12,7 +12,9 @@
 
     <link rel="stylesheet" href="{% static 'project/css/profilestyles.css' %}" media="screen" title="no title"  charset="utf-8">
     <style>
-
+      a{
+        text-align: center
+      }
     </style>
 </head>
 <body>
@@ -30,14 +32,17 @@
     </div>
 
         <div>
-          <h1 class="text-center">Collaborations to "{{collaboration.solution.content}}"</h1>
-          <div class = "solution panel panel-default">
+          <h1 class="text-center">Collaborations to "{{collaboration.solution.content}}" for {{collaboration.solution.prompt.content}}</h1>
+          
 
           {% for user in collaboration.users.all %}
-
-            <a href="/profile/{{solution.user.id}}">Collaborator: <h3>{{user.username}}</h3>
+            <div class="container">
+                <div class = "solution panel panel-default">
+                  <a href="/profile/{{user.id}}"><p>Collaborator:</p> <h3>{{user.username}}</h3></a>
+                  </div>
+            </div>
           {% endfor %}
-        </div>
+        
       
     </div>
 </body>
