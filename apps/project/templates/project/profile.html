@@ -27,7 +27,7 @@
           <li style="font-weight:bold; font-size:20px">CreativeSpace</li>
           <li><a href="{% url 'admin:index' %}">Admin</a></li>            
           <li><a href="/home">Feed</a></li>
-          <li><a style="font-weight:bold" href="/profile/{{user.id}}">Profile</a></li>
+          <li><a style="font-weight:bold" href="/profile/{{login_user.id}}">Profile</a></li>
           <li><a href="/edit">Edit Info</a></li>
           <li><a href="/uploadprofile">Upload Picture</a></li>
           <li><button><a href="/logout">Logout</a></button></li>
