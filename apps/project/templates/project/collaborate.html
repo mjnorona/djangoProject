@@ -31,14 +31,14 @@
 
         <div>
           <h1 class="text-center">Collaborations to "{{collaboration.solution.content}}"</h1>
-          {% for collaboration in collaborations %}
-            <div class = "solution panel panel-default">
-            <a href="/profile/{{collaboration.user.id}}"> Collaborator {{collaboration.user.username}}</a>
-            <h3>{{solution.content}}</h3>
-            <h1>{{collaboration.write}} for {{collaboration.solution.prompt.content}}</h1>
-            {{collaboration.user}}
+          <div class = "solution panel panel-default">
+
+          {% for user in collaboration.users.all %}
+
+            <a href="/profile/{{solution.user.id}}">Collaborator: <h3>{{user.username}}</h3>
+          {% endfor %}
         </div>
-        {% endfor %}
+      
     </div>
 </body>
 </html>

@@ -47,7 +47,7 @@
             <h1 class="text-center">Solutions to "{{prompt.content}}"</h1>
             {% for solution in solutions %}
                 <div class = "solution panel panel-default">
-                    <a href="/profile/{{solution.user.id}}">Answered by {{solution.user.username}}</a>
+                    <a href="/profile/{{user.id}}">Answered by {{solution.user.username}}</a>
                     <h3>{{solution.content}}</h3>
                     <a >{{solution.num_likes}}</a>
                     <button><a href="/like/{{solution.id}}">Like</a></button>
