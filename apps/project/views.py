@@ -251,6 +251,8 @@ def profile(request, id):
         count = 0
         likes = Like.objects.filter(solution__id = 1)
 
+        collabs = Collaboration.objects.filter(users__id = user.id)
+
 
         for i in getsolutionsforcount:
 
@@ -263,7 +265,8 @@ def profile(request, id):
             "user": user,
             "solutions": solutions,
             "likes": likes,
-            "points": count
+            "points": count,
+            "collabs": collabs
         }
 
 
